@@ -73,6 +73,11 @@ void SendWebsite() {
 void SendXML() {
   Serial.println("Sending xml");
   strcpy(XML, "<?xml version = '1.0'?>\n<Data>\n");
+  // send test
+  sprintf(buf, "<B0>%d</B0>\n", 1);
+  strcat(XML, buf);
+
+  strcat(XML, "</Data>\n");
   Serial.println(XML);
   server.send(200, "text/xml", XML);
 }
