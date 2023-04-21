@@ -7,6 +7,12 @@
 #define LOCAL_SSID "your_home_ssid"
 #define LOCAL_PASS "your_home_password"
 
+// start your defines for pins for sensors, outputs etc.
+#define PIN_LED 2     // on board LED
+
+// variables to store LED states
+bool LED0 = false;
+
 // the XML array size needs to be bigger that your maximum expected size. 2048 is way too big for this example
 char XML[2048];
 
@@ -24,6 +30,11 @@ WebServer server(80);
 
 void setup() {
   Serial.begin(115200);
+  pinMode(PIN_LED, OUTPUT);
+
+  // turn off led
+  LED0 = false;
+  digitalWrite(PIN_LED, LED0);
 
   // if your web page or XML are large, you may not get a call back from the web page
   // and the ESP will think something has locked up and reboot the ESP
@@ -51,6 +62,9 @@ void setup() {
   // just parts of the web page
   server.on("/xml", SendXML);
 
+  // code for controlling onboard LED on esp32
+  server.on("/BUTTON_0", ProcessButton_0);
+
   server.begin();
 }
 
@@ -69,12 +83,25 @@ void SendWebsite() {
   server.send(200, "text/html", PAGE_MAIN);
 }
 
+// now process button_0 press from the web site to switch onboard LED
+void ProcessButton_0() {
+  LED0 = !LED0;
+  digitalWrite(PIN_LED, LED0);
+  Serial.print("Button 0: "); Serial.println(LED0);
+  // send something back since it is expected
+  server.send(200, "text/plain", ""); //Send web page
+}
+
 // code to send the main web page
 void SendXML() {
   Serial.println("Sending xml");
   strcpy(XML, "<?xml version = '1.0'?>\n<Data>\n");
   // send test
-  sprintf(buf, "<B0>%d</B0>\n", 1);
+  sprintf(buf, "<B0>%d</B0>\n", 0xA2);
+  strcat(XML, buf);
+  sprintf(buf, "<B1>%d</B1>\n", 0xB3);
+  strcat(XML, buf);
+  sprintf(buf, "<B2>%d</B2>\n", 0xC4);
   strcat(XML, buf);
 
   strcat(XML, "</Data>\n");
