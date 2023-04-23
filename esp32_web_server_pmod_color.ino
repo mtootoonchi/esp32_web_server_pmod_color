@@ -10,8 +10,11 @@
 // start your defines for pins for sensors, outputs etc.
 #define PIN_LED 2     // on board LED
 
-// variables to store LED states
+// variables to store LED states and sensors
 bool LED0 = false;
+unsigned int redData = 0;
+unsigned int greenData = 0;
+unsigned int blueData = 0;
 
 // the XML array size needs to be bigger that your maximum expected size. 2048 is way too big for this example
 char XML[2048];
@@ -35,6 +38,20 @@ void setup() {
   // turn off led
   LED0 = false;
   digitalWrite(PIN_LED, LED0);
+
+  // Pmod COLOR setup
+  Wire.setClock(3400000);
+  Wire.begin();
+  Wire.beginTransmission(0x29);
+  Wire.write(0x80);
+  Wire.write(0x01);
+  delay(3);
+  Wire.endTransmission();
+  Wire.beginTransmission(0x29);
+  Wire.write(0x80);
+  Wire.write(0x03);
+  Wire.endTransmission();
+  delay(5);
 
   // if your web page or XML are large, you may not get a call back from the web page
   // and the ESP will think something has locked up and reboot the ESP
@@ -69,13 +86,36 @@ void setup() {
 }
 
 void loop() {
+  Wire.beginTransmission(0x29);
+  Wire.write(0xB6);
+  Wire.endTransmission();
+  int temp = 0;
+  Wire.requestFrom(0x29, 6);
+  while(!Wire.available());
+  temp = Wire.read();
+  while(!Wire.available());
+  temp += Wire.read() << 8;
+  temp /= 256;
+  redData = temp;
+  while(!Wire.available());
+  temp = Wire.read();
+  while(!Wire.available());
+  temp += Wire.read() << 8;
+  temp /= 256;
+  greenData = temp;
+  while(!Wire.available());
+  temp = Wire.read();
+  while(!Wire.available());
+  temp += Wire.read() << 8;
+  temp /= 256;
+  blueData = temp;
   // no matter what you must call this handleClient repeatidly--otherwise the web page
   // will not get instructions to do something
   server.handleClient();
 }
 
 // code to send the main web page
-// PAGE_MAIN is a large char defined in SuperMon.h
+// PAGE_MAIN is a large char defined in Website.h
 void SendWebsite() {
   Serial.println("Sending web page");
   // you may have to play with this value, big pages need more porcessing time, and hence
@@ -97,11 +137,11 @@ void SendXML() {
   Serial.println("Sending xml");
   strcpy(XML, "<?xml version = '1.0'?>\n<Data>\n");
   // send test
-  sprintf(buf, "<B0>%d</B0>\n", 0xA2);
+  sprintf(buf, "<B0>%d</B0>\n", redData);
   strcat(XML, buf);
-  sprintf(buf, "<B1>%d</B1>\n", 0xB3);
+  sprintf(buf, "<B1>%d</B1>\n", greenData);
   strcat(XML, buf);
-  sprintf(buf, "<B2>%d</B2>\n", 0xC4);
+  sprintf(buf, "<B2>%d</B2>\n", blueData);
   strcat(XML, buf);
 
   strcat(XML, "</Data>\n");

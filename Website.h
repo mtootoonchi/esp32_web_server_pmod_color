@@ -110,9 +110,9 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
     greenValue = xmlResponse.getElementsByTagName("B1")[0].firstChild.nodeValue;
     blueValue = xmlResponse.getElementsByTagName("B2")[0].firstChild.nodeValue;
 
-    document.getElementById("mainSectionH10ID").innerHTML = "Red: 0x" + convert(redValue)
-    document.getElementById("mainSectionH11ID").innerHTML = "Green: 0x" + convert(greenValue)
-    document.getElementById("mainSectionH12ID").innerHTML = "Blue: 0x" + convert(blueValue)
+    document.getElementById("mainSectionH10ID").innerHTML = "Red: 0x" + convert(redValue) + " = " + redValue
+    document.getElementById("mainSectionH11ID").innerHTML = "Green: 0x" + convert(greenValue) + " = " + greenValue
+    document.getElementById("mainSectionH12ID").innerHTML = "Blue: 0x" + convert(blueValue) + " = " + blueValue
 
     document.getElementById("bottomFooterID").setAttribute("style", "background-color: #" + convert(redValue) + convert(greenValue) + convert(blueValue))
   }
@@ -131,7 +131,7 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
     }       
     // you may have to play with this value, big pages need more porcessing time, and hence
     // a longer timeout
-    setTimeout("process()",100);
+    setTimeout("process()", 100);
   }
 
   function convert(integer) {
