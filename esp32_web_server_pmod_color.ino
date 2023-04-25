@@ -146,7 +146,7 @@ void SendXML() {
 
   strcat(XML, "</Data>\n");
   Serial.println(XML);
-  server.send(200, "text/xml", XML);
+  server.send(400, "text/xml", XML);
 }
 
 void printWifiStatus() {
