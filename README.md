@@ -7,3 +7,7 @@ To use project copy the code to Arduino IDE (I used version 2.0.4) and edit the 
 Pmod COLOR Pinout
 
 ![pic1](pictures/Pmod_COLOR_Pinout.png)
+
+ESP-WROOM-32 ESP32 ESP-32S Development Board
+
+![pic1](pictures/ESP-WROOM-32_ESP32_ESP-32S_Development_Board_Pinout.png)
