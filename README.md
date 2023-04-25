@@ -8,6 +8,6 @@ Pmod COLOR Pinout
 
 ![pic1](pictures/Pmod_COLOR_Pinout.png)
 
-ESP-WROOM-32 ESP32 ESP-32S Development Board
+ESP-WROOM-32 ESP32 ESP-32S Development Board Pinout
 
 ![pic1](pictures/ESP-WROOM-32_ESP32_ESP-32S_Development_Board_Pinout.png)
