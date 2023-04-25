@@ -16,7 +16,7 @@ char redData = 0;
 char greenData = 0;
 char blueData = 0;
 
-// the XML array size needs to be bigger that your maximum expected size. 2048 is way too big for this example
+// the XML array size needs to be bigger that your maximum expected size. For mine 128 is good.
 char XML[128];
 
 // just some buffer holder for char operations
