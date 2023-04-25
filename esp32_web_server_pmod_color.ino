@@ -12,12 +12,12 @@
 
 // variables to store LED states and sensors
 bool LED0 = false;
-unsigned int redData = 0;
-unsigned int greenData = 0;
-unsigned int blueData = 0;
+char redData = 0;
+char greenData = 0;
+char blueData = 0;
 
 // the XML array size needs to be bigger that your maximum expected size. 2048 is way too big for this example
-char XML[2048];
+char XML[128];
 
 // just some buffer holder for char operations
 char buf[32];
@@ -96,19 +96,19 @@ void loop() {
   while(!Wire.available());
   temp += Wire.read() << 8;
   temp /= 256;
-  redData = temp;
+  redData = (char)temp;
   while(!Wire.available());
   temp = Wire.read();
   while(!Wire.available());
   temp += Wire.read() << 8;
   temp /= 256;
-  greenData = temp;
+  greenData = (char)temp;
   while(!Wire.available());
   temp = Wire.read();
   while(!Wire.available());
   temp += Wire.read() << 8;
   temp /= 256;
-  blueData = temp;
+  blueData = (char)temp;
   // no matter what you must call this handleClient repeatidly--otherwise the web page
   // will not get instructions to do something
   server.handleClient();
